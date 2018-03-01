@@ -39,8 +39,9 @@
 				console.log(child);	// 还保留着原先存着的对象内容
 				console.log(document.getElementById('child'));	// 此处已经获取不到了
 				child = null; // 回收节点，否则引用还存在，弱引用没法清除
-			} else {
 				console.log('child has removed!');
+			} else {
+				console.log('child has been removed!');
 			}
 		}
 
