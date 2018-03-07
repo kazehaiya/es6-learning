@@ -1,10 +1,12 @@
 (function () {
 	// 不用 new
-	// let symbol_test = Symbol('test');
-	// console.log('type', typeof symbol_test, 'content', symbol_test);
+	let symbol_test = Symbol('test');
+	console.log('type', typeof symbol_test, 'content', symbol_test);
 	// type symbol content Symbol(test)
-	// console.log(symbol_test.toString(), Boolean(symbol_test))
-	// Symbol(test) true (貌似转为Boolean都是true)
+	console.log(symbol_test.toString(), Boolean(symbol_test))
+	Symbol(test) // true (貌似转为Boolean都是true)
+
+
 
 	// let address = Symbol('address');
 	// let obj = {
@@ -22,6 +24,8 @@
 	// }
 	// console.log(obj, obj.address, obj[address]);	// 中间的是undefined，其他的有内容
 	// console.log(Object.getOwnPropertySymbols(obj))	// 返回一个数组，内部是Symbol值
+
+
 
 	// let s1 = Symbol('s1');
 	// let s11 = Symbol('s1');
@@ -43,6 +47,8 @@
 	// console.log(test1() === test2(), Symbol.for('test'), Symbol.keyFor(Symbol.for('test')))
 	// console.log(Symbol.for('test') === Symbol.for('test'))
 
+
+
 	// 自定义检测
 	// class Even {
 	// 	static [Symbol.hasInstance](tar) {
@@ -51,13 +57,15 @@
 	// }
 	// console.log(2 instanceof Even, 1 instanceof Even);	// true false
 
+
+	
 	// 自定义类型
-	class MyStyle {
-		get [Symbol.toStringTag]() {
-			return 'MyStyle';
-		}
-	}
-	let myStyle = new MyStyle();
-	console.log(Object.prototype.toString.call(myStyle));	// [Object MyStyle]
+	// class MyStyle {
+	// 	get [Symbol.toStringTag]() {
+	// 		return 'MyStyle';
+	// 	}
+	// }
+	// let myStyle = new MyStyle();
+	// console.log(Object.prototype.toString.call(myStyle));	// [Object MyStyle]
 })();
 

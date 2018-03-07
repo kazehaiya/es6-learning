@@ -1,24 +1,24 @@
 (function () {
 	// 可以用箭头函数
-	// const promise = new Promise((resolve, reject) => {
-	// 	console.log(this);	// window或global(node 环境)
-	// 	setTimeout(() => {
-	// 		return resolve('success');	// 可以不用写return,如果是出于习惯的话		
-	// 	}, 1000);
-	// });
+	const promise = new Promise((resolve, reject) => {
+		console.log(this);	// window或global(node 环境)
+		setTimeout(() => {
+			return resolve('success');	// 可以不用写return,如果是出于习惯的话		
+		}, 1000);
+	});
 
-	// promise.then(mes => {
-	// 	console.log(mes);
-	// 	return new Promise((resolve, reject) => {
-	// 		reject('rejected');
-	// 	});		// 此处可以直接 return Promise.reject('rejected');
-	// }).then(mes => {
-	// 	console.log('here', mes);
-	// }).catch(err => {
-	// 	console.log(err);
-	// }).finally(() => {
-	// 	console.log('I will run finally');	// 在node环境此会报错,说finally不是函数~
-	// });
+	promise.then(mes => {
+		console.log(mes);
+		return new Promise((resolve, reject) => {
+			reject('rejected');
+		});		// 此处可以直接 return Promise.reject('rejected');
+	}).then(mes => {
+		console.log('here', mes);
+	}).catch(err => {
+		console.log(err);
+	}).finally(() => {
+		console.log('I will run finally');	// 在node环境此会报错,说finally不是函数~
+	});
 
 
 
@@ -56,12 +56,12 @@
 
 
 	// promise异步实在本轮循环的结尾调用，而非下轮循环的开始调用，如：
-	setTimeout(() => {
-		console.log('three');	// 下一轮循环开始
-	}, 0);
+	// setTimeout(() => {
+	// 	console.log('three');	// 下一轮循环开始
+	// }, 0);
 
-	Promise.resolve().then(() => {
-		console.log('two');		// 本轮循环末尾
-	});
-	console.log('one');	// 本轮循环中
+	// Promise.resolve().then(() => {
+	// 	console.log('two');		// 本轮循环末尾
+	// });
+	// console.log('one');	// 本轮循环中
 })();

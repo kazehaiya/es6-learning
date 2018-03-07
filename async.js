@@ -1,22 +1,22 @@
 (function () {
-	// 基本写法
-	// function waiting(t) {
-	// 	return new Promise((resolve, reject) => {
-	// 		setTimeout(() => {
-	// 			resolve('success!');
-	// 		}, t);
-	// 	});
-	// }
+	基本写法
+	function waiting(t) {
+		return new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve('success!');
+			}, t);
+		});
+	}
 
-	// async function asyncFunc() {
-	// 	console.log('start waiting...');
-	// 	let res = await waiting(2000);
-	// 	console.log(res);
-	// 	await waiting(1000);
-	// 	console.log('end');
-	// }
+	async function asyncFunc() {
+		console.log('start waiting...');
+		let res = await waiting(2000);
+		console.log(res);
+		await waiting(1000);
+		console.log('end');
+	}
 
-	// asyncFunc();
+	asyncFunc();
 
 
 

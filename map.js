@@ -7,12 +7,14 @@
 	]);
 	m.set(obj, 'obj')
 
-	// console.log(m.size);
-	// console.log(m.get('name'), m.get('age'), m.get(obj));
+	console.log(m.size);
+	console.log(m.get('name'), m.get('age'), m.get(obj));
 	// 类似set的遍历
-	// for(let [key, value] of m.entries()) {
-	// 	console.log(`${key}: ${value}`);
-	// }
+	for(let [key, value] of m.entries()) {
+		console.log(`${key}: ${value}`);
+	}
+
+
 	
 	// map转数组
 	// console.log([...m]);	// 类似于初始化时的那种数组，此结果有3组
@@ -42,6 +44,8 @@
 	// 转为Json(此map键名有字符串，否则可以通过map转对象在转对象JSON)
 	// console.log(JSON.stringify([...m]));	// [["name","kindle"],["age",6],[{"test":"key"},"obj"]]
 
+
+
 	// WeakMap
 	// const wm = new WeakMap();
 	// const element = {id: 'getElementById(xxx)'};
@@ -52,18 +56,20 @@
 	// inf = null;
 	// console.log(wm.get(element));
 
+
+	
 	// WeakMap部署私有属性
-	const privateName = new WeakMap();
-	class Test {
-		constructor(name='') {
-			privateName.set(this, name);
-		}
+	// const privateName = new WeakMap();
+	// class Test {
+	// 	constructor(name='') {
+	// 		privateName.set(this, name);
+	// 	}
 
-		getName() {
-			return privateName.get(this);
-		}
-	}
+	// 	getName() {
+	// 		return privateName.get(this);
+	// 	}
+	// }
 
-	let t = new Test('tic');
-	console.log(t.getName());	// tic  但是这个缺点也很明显，每个私有属性得有一个WeakMap，如果将私有属性都存入一个对象内的话还不如用 Symbol 更便捷，看个人所爱吧
+	// let t = new Test('tic');
+	// console.log(t.getName());	// tic  但是这个缺点也很明显，每个私有属性得有一个WeakMap，如果将私有属性都存入一个对象内的话还不如用 Symbol 更便捷，看个人所爱吧
 })();
