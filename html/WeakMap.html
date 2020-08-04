@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
-</head>
-<body>
-	<button id="button">click</button>
-	<script>
-		const btn = document.getElementById('button');
-		const wm = new WeakMap();
-		wm.set(btn, { clicked: 0 });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="button">click</button>
+    <script>
+      const btn = document.getElementById('button');
+      const wm = new WeakMap();
+      wm.set(btn, { clicked: 0 });
 
-		function clickBtn() {
-			let clk = wm.get(this);
-			clk.clicked++;
-			console.log(clk.clicked);		// 这样可以记录点击次数，当删除时也不必担心没有删除此引用，导致内存泄漏
-		}
+      function clickBtn() {
+        let clk = wm.get(this);
+        clk.clicked++;
+        console.log(clk.clicked); // 这样可以记录点击次数，当删除时也不必担心没有删除此引用，导致内存泄漏
+      }
 
-		btn.addEventListener('click', clickBtn, false);
-	</script>
-</body>
+      btn.addEventListener('click', clickBtn, false);
+    </script>
+  </body>
 </html>
