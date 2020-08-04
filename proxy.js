@@ -21,6 +21,7 @@
 //       console.log('Old val: ', target[key]);
 //       console.log('New Val: ', newVal);
 
+//			 // Reflect.set 不传入 receiver 参数将不会触发 defineProperty 拦截
 //       return Reflect.set(target, key, newVal, receiver);
 //     },
 //     deleteProperty(target, key) {
