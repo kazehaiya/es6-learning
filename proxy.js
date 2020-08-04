@@ -1,5 +1,5 @@
 /**
- * 学习 Demo1
+ * 学习 Demo1：基础学习
  */
 // (function () {
 //   const targetObj = {
@@ -54,7 +54,7 @@
 // })();
 
 /**
- * 学习 Demo2
+ * 学习 Demo2：拦截新属性的生成
  */
 // (function () {
 //   Object.prototype.age = 1;
@@ -83,37 +83,62 @@
 // })();
 
 /**
- * 学习 Demo3
+ * 学习 Demo3：为不存在的对象赋值
+ */
+// (function () {
+//   function reactive(targetObj = {}) {
+//     const proxyObj = new Proxy(targetObj, {
+//       get(target, propKey, receiver) {
+//         let val = Reflect.get(target, propKey, receiver);
+
+//         // 处理不存在的对象情况，多做一层代理
+//         if (typeof val === 'undefined') {
+//           const tmpVal = reactive(val);
+//           val = tmpVal;
+//           target[propKey] = tmpVal;
+//         }
+
+//         return val;
+//       },
+//       set(target, key, newVal, receiver) {
+//         // 拦截非自身属性值
+//         console.log(`property ${key}'s new value is`, newVal);
+//         return Reflect.set(target, key, newVal, receiver);
+//       },
+//     });
+
+//     return proxyObj;
+//   }
+
+//   const proxyObj = reactive({ name: 'origin' });
+
+//   // 新增不存在的对象
+//   proxyObj.test.name = 'test';
+//   // 更新 proxy 新增的不存在对象
+//   proxyObj.test.age = 123;
+// })();
+
+/**
+ * 学习 Demo4：this 问题
  */
 (function () {
-  function reactive(targetObj = {}) {
-    const proxyObj = new Proxy(targetObj, {
-      get(target, propKey, receiver) {
-        let val = Reflect.get(target, propKey, receiver);
+  const target = new Date('2015-01-01');
+  const handler = {
+    get(target, prop, receiver) {
+      const res = Reflect.get(target, prop, receiver);
 
-        // 处理不存在的对象情况，多做一层代理
-        if (typeof val === 'undefined') {
-          const tmpVal = reactive(val);
-          val = tmpVal;
-          target[propKey] = tmpVal;
+      // 原型链上绑定的函数需要透传出来，this 在 proxy 后会默认指向代理后的对象
+      if (!target.hasOwnProperty(prop)) {
+        if (typeof res === 'function') {
+          return res.bind(target);
         }
+      }
 
-        return val;
-      },
-      set(target, key, newVal, receiver) {
-        // 拦截非自身属性值
-        console.log(`property ${key}'s new value is`, newVal);
-        return Reflect.set(target, key, newVal, receiver);
-      },
-    });
+      return Reflect.get(target, prop, receiver).bind(target);
+    },
+  };
+  const proxyDate = new Proxy(target, handler);
 
-    return proxyObj;
-  }
-
-  const proxyObj = reactive({ name: 'origin' });
-
-  // 新增不存在的对象
-  proxyObj.test.name = 'test';
-  // 更新 proxy 新增的不存在对象
-  proxyObj.test.age = 123;
+  console.log(proxyDate.getDate()); // 1
+  console.log(proxyDate.toJSON()); // 2015-01-01T00:00:00.000Z
 })();
