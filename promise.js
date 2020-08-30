@@ -1,18 +1,17 @@
 (function () {
   // 可以用箭头函数
   const promise = new Promise((resolve, reject) => {
-    console.log(this); // window或global(node 环境)
+    console.log('Promise 内为同步区域');
+
     setTimeout(() => {
-      return resolve('success'); // 可以不用写return,如果是出于习惯的话
+      resolve('success');
     }, 1000);
   });
 
   promise
     .then((mes) => {
       console.log(mes);
-      return new Promise((resolve, reject) => {
-        reject('rejected');
-      }); // 此处可以直接 return Promise.reject('rejected');
+      return Promise.reject('rejected');
     })
     .then((mes) => {
       console.log('here', mes);
@@ -21,48 +20,83 @@
       console.log(err);
     })
     .finally(() => {
-      console.log('I will run finally'); // 在node环境此会报错,说finally不是函数~
+      console.log('I will run finally');
     });
-
-  // promise.all()
-  // function fun1() {
-  // 	var p = new Promise((resolved, rejected) => {
-  // 		setTimeout(function () {
-  // 			console.log('1');
-  // 			resolved({
-  // 				'data': '2017-07-12',
-  // 				'name': 'json',
-  // 				'age': 12
-  // 			});
-  // 		}, 2000);
-  // 	});
-  // 	return p;
-  // }
-
-  // function fun2() {
-  // 	var p = new Promise((resolved, rejected) => {
-  // 		setTimeout(function () {
-  // 			console.log('2');
-  // 			resolved(['string1', 'string2']);
-  // 		}, 1000);
-  // 	});
-  // 	return p;
-  // }
-
-  // Promise.all([fun1(), fun2()]).then((res) => {
-  // 	console.log(res);		// 包含所有结果的数组,所有函数都跑完
-  // });
-  // Promise.race([fun1(), fun2()]).then(res => {
-  // 	console.log(res);	// 仅返回最快的那个的结果,所有函数都跑完
-  // });
-
-  // promise异步实在本轮循环的结尾调用，而非下轮循环的开始调用，如：
-  // setTimeout(() => {
-  // 	console.log('three');	// 下一轮循环开始
-  // }, 0);
-
-  // Promise.resolve().then(() => {
-  // 	console.log('two');		// 本轮循环末尾
-  // });
-  // console.log('one');	// 本轮循环中
 })();
+
+/**
+ * Promise function
+ */
+// (function () {
+//   function fun1() {
+//     return new Promise((resolved, rejected) => {
+//       setTimeout(() => {
+//         resolved('2秒成功');
+//       }, 2000);
+//     });
+//   }
+//   function fun2() {
+//     var p = new Promise((resolved, rejected) => {
+//       setTimeout(() => {
+//         resolved('3秒成功');
+//       }, 3000);
+//     });
+//     return p;
+//   }
+//   function func3() {
+//     return new Promise((resolved, rejected) => {
+//       setTimeout(function () {
+//         rejected('1秒失败');
+//       }, 1000);
+//     });
+//   }
+
+//   // 有失败则失败
+//   Promise.all([fun1(), fun2(), func3()])
+//     .then((res) => {
+//       console.log('all', res);
+//     })
+//     .catch((e) => {
+//       console.log('all', e);
+//     });
+
+//   // 获得跑的最快的那个
+//   Promise.race([fun1(), fun2(), func3()])
+//     .then((res) => {
+//       console.log('race', res);
+//     })
+//     .catch((e) => {
+//       console.log('race', e);
+//     });
+
+//   // 获取所有的
+//   Promise.allSettled([fun1(), fun2(), func3()]).then((res) => {
+//     console.log('allSettled', res);
+//   });
+
+//   // 获取第一个成功的（node 暂时没支持）
+//   Promise.any([fun1(), fun2(), func3()]).then((res) => {
+//     console.log('any', res);
+//   });
+// })();
+
+/**
+ * Promise 等执行顺序
+ */
+// (function () {
+//   // 宏任务，下一循环前
+//   setTimeout(() => {
+//     console.log('four');
+//   });
+
+//   // 微任务，当前循环尾
+//   Promise.resolve(() => {
+//     // 内部为同步
+//     console.log('one');
+//   }).then(() => {
+//     console.log('three');
+//   });
+
+//   // 立即执行
+//   console.log('two'); // 本轮循环中
+// })();
